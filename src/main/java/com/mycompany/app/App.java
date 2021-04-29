@@ -10,7 +10,7 @@ public class App
     private static final String HOSTNAME = "127.0.0.1";
     private static final String PORT = "3306";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "password_here";
     private static final String DATABASE = "acme";
 
     public static void main(String[] args) {
@@ -57,7 +57,7 @@ public class App
     public static Long create(Connection conn, String content) throws SQLException, Exception {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO messages (content) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, content);
-        stmt.executeQuery();
+        stmt.executeUpdate();
         ResultSet rs = stmt.getGeneratedKeys();
         if (!rs.next()) {
             throw new Exception("Insert failed");
@@ -100,7 +100,7 @@ public class App
         PreparedStatement stmt = conn.prepareStatement("UPDATE messages SET content = ? WHERE id = ?");
         stmt.setString(1, content);
         stmt.setLong(2, id);
-        stmt.executeQuery();
+        stmt.executeUpdate();
         int rows = stmt.getUpdateCount();
         if (rows != 1) {
             throw new Exception("Update failed");
@@ -110,7 +110,7 @@ public class App
     public static void delete(Connection conn, Long id) throws SQLException, Exception {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM messages WHERE id = ?");
         stmt.setLong(1, id);
-        stmt.executeQuery();
+        stmt.executeUpdate();
     }
     
 }
